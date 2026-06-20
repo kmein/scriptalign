@@ -75,9 +75,37 @@
           inherit scriptalign coptic-arabic arabic-armenian;
           default = coptic-arabic;
         };
+      mkPytestCheck = pkgs:
+        let
+          python = pkgs.python3;
+          fs = pkgs.lib.fileset;
+          packages = mkPackages pkgs;
+          testEnv = python.withPackages (ps: [ packages.scriptalign ps.pytest ]);
+          testsSrc = fs.toSource {
+            root = ./.;
+            fileset = fs.unions [
+              ./tests
+              ./parallel_texts.csv
+              ./examples/coptic_arabic/src
+              ./examples/arabic_armenian/src
+            ];
+          };
+        in pkgs.runCommand "scriptalign-pytest" {
+          nativeBuildInputs = [ testEnv ];
+        } ''
+          cp -r ${testsSrc}/. .
+          chmod -R u+w .
+          export PYTHONPATH="$PWD/examples/coptic_arabic/src:$PWD/examples/arabic_armenian/src"
+          pytest tests/ -q
+          touch $out
+        '';
     in
     {
       packages = forAllSystems (system: mkPackages nixpkgs.legacyPackages.${system});
+
+      checks = forAllSystems (system: {
+        pytest = mkPytestCheck nixpkgs.legacyPackages.${system};
+      });
 
       apps = forAllSystems (system: {
         coptic-arabic = {

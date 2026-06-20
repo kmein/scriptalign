@@ -81,6 +81,36 @@ coptic-arabic --input parallel_texts.csv --show 0     # every pair
 - `--gap-scale F` — DP gap penalty scale (default 0.5).
 - `--clipboard` — copy a formatted φ table to the system clipboard (requires `pip install -e .[clipboard]`).
 
+## Run the Arabic-Armenian alignment
+
+The Arabic-Armenian example aligns Arabic philosophical terms against their Armenian-script transcriptions in a small 27-pair corpus. The data is bundled with the package, so the CLI runs with no arguments:
+
+```
+arabic-armenian --output-dir output-aa/ --iterations 10
+```
+
+prints a summary to stdout:
+
+```
+arabic-armenian: 27 words × 10 iterations → output-aa/
+
+Top 10 correspondences:
+  հ ↔ ه   φ = +1.000
+  ք ↔ ك   φ = +1.000
+  լ ↔ ل   φ = +0.830
+  մ ↔ م   φ = +0.818
+  ջ ↔ ج   φ = +0.814
+  թ ↔ ة   φ = +0.794
+  ր ↔ ر   φ = +0.738
+  ֆ ↔ ف   φ = +0.738
+  ն ↔ ن   φ = +0.700
+  ...
+```
+
+and writes the same five files (`correspondences.csv`, `correspondences_ranked.tsv`, `phi.csv`, `occurrences.csv`, `state.pkl`) into `output-aa/`. All the flags from the Coptic-Arabic CLI apply (`--show N`, `--top N`, `--iterations`, `--gap-scale`); `--input` is optional and only needed to point at a CSV other than the bundled one.
+
+Source of the corpus: <https://kieranmeinhardt.de/language/arabic-armenian/>.
+
 ## Use the library on a different pair of scripts
 
 ```python
