@@ -9,11 +9,12 @@ The main purpose of sharing it here is to demonstrate that the computational ali
 
 ## Install
 
-The repo ships two Python distributions: `scriptalign` (the library) at the root, and `coptic-arabic` (the example client) under `examples/coptic_arabic/`. Install whichever you need:
+The repo ships three Python distributions: `scriptalign` (the library) at the root, and two example clients under `examples/`. Install whichever you need:
 
 ```
-pip install -e .                          # library only
-pip install -e . -e examples/coptic_arabic   # library + example CLI
+pip install -e .                                                       # library only
+pip install -e . -e examples/coptic_arabic                             # + Coptic-Arabic CLI
+pip install -e . -e examples/coptic_arabic -e examples/arabic_armenian # everything
 ```
 
 ### With Nix
@@ -35,7 +36,7 @@ Inside `nix develop`, set up an editable install for development:
 
 ```
 python -m venv --system-site-packages .venv
-.venv/bin/pip install -e . -e examples/coptic_arabic
+.venv/bin/pip install -e . -e examples/coptic_arabic -e examples/arabic_armenian
 .venv/bin/python -m pytest -q
 ```
 
@@ -114,10 +115,6 @@ Additional data found in Sobhy 1926 have not yet been added. Updated readings of
 
 Coptic `<ⲟⲩ>` has been replaced with `<ȣ>` so that it is treated as a single grapheme by the analysis.
 
-## Results
-
-Viewable results in a formatted Excel spreadsheet are in [`Coptic-Arabic Text Alignment Results.xlsx`](Coptic-Arabic%20Text%20Alignment%20Results.xlsx).
-
 ## Examples
 
 The repo ships two example clients of `scriptalign`:
@@ -133,5 +130,4 @@ examples/coptic_arabic/            example: Coptic-Arabic alignment
 examples/arabic_armenian/          example: Arabic-Armenian alignment (data bundled)
 tests/                             unit + regression + smoke tests
 parallel_texts.csv                 Coptic-Arabic input corpus
-output/                            historical run outputs (preserved)
 ```

@@ -1,4 +1,0 @@
-# Runtime requirement.
-# For development install (tests + optional clipboard support) use:
-#     pip install -e .[clipboard,dev]
-numpy>=1.19
