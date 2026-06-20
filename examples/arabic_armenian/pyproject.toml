@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "arabic-armenian"
+version = "0.1.0"
+description = "Arabic-Armenian letter alignment — example client of the scriptalign library."
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [
+    { name = "Kierán Meinhardt" },
+]
+dependencies = [
+    "scriptalign>=0.1.0",
+]
+
+[project.scripts]
+arabic-armenian = "arabic_armenian.run:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["arabic_armenian*"]
+
+[tool.setuptools.package-dir]
+"" = "src"
+
+[tool.setuptools.package-data]
+arabic_armenian = ["words.csv"]

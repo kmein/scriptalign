@@ -18,12 +18,15 @@ pip install -e . -e examples/coptic_arabic   # library + example CLI
 
 ### With Nix
 
-A `flake.nix` builds both packages and exposes the CLI as a runnable app:
+A `flake.nix` builds the library and the example clients and exposes their CLIs as runnable apps:
 
 ```
 nix build .#scriptalign        # library as a Python package
-nix build .#coptic-arabic      # CLI wrapper (default package)
+nix build .#coptic-arabic      # Coptic-Arabic CLI (default package)
+nix build .#arabic-armenian    # Arabic-Armenian CLI
+
 nix run  .#coptic-arabic -- --input parallel_texts.csv --output-dir output/
+nix run  .#arabic-armenian -- --output-dir output-aa/    # bundled corpus
 
 nix develop                    # dev shell: python + numpy + pytest + pyperclip
 ```
@@ -88,12 +91,20 @@ Coptic `<ⲟⲩ>` has been replaced with `<ȣ>` so that it is treated as a singl
 
 Viewable results in a formatted Excel spreadsheet are in [`Coptic-Arabic Text Alignment Results.xlsx`](Coptic-Arabic%20Text%20Alignment%20Results.xlsx).
 
+## Examples
+
+The repo ships two example clients of `scriptalign`:
+
+- **`examples/coptic_arabic/`** — letter alignment of Coptic-script Arabic against vocalized Arabic. Operates on `parallel_texts.csv` at the repo root (Casanova 1901 + Burmester 1965-66).
+- **`examples/arabic_armenian/`** — letter alignment of Arabic against Armenian-script transcriptions of Arabic philosophical terminology. Data is bundled with the package; runs out of the box. Source: <https://kieranmeinhardt.de/language/arabic-armenian/>.
+
 ## Repository layout
 
 ```
 src/scriptalign/                   the library — domain-neutral
-examples/coptic_arabic/            the example client — Coptic+Arabic specifics
-tests/                             unit + regression tests
-parallel_texts.csv                 input corpus
+examples/coptic_arabic/            example: Coptic-Arabic alignment
+examples/arabic_armenian/          example: Arabic-Armenian alignment (data bundled)
+tests/                             unit + regression + smoke tests
+parallel_texts.csv                 Coptic-Arabic input corpus
 output/                            historical run outputs (preserved)
 ```

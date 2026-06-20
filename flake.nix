@@ -23,12 +23,21 @@
             ];
           };
 
-          # Minimal source for the example client.
+          # Minimal source for the Coptic-Arabic example client.
           copticArabicSrc = fs.toSource {
             root = ./examples/coptic_arabic;
             fileset = fs.unions [
               ./examples/coptic_arabic/pyproject.toml
               ./examples/coptic_arabic/src
+            ];
+          };
+
+          # Minimal source for the Arabic-Armenian example client.
+          arabicArmenianSrc = fs.toSource {
+            root = ./examples/arabic_armenian;
+            fileset = fs.unions [
+              ./examples/arabic_armenian/pyproject.toml
+              ./examples/arabic_armenian/src
             ];
           };
 
@@ -52,8 +61,18 @@
             dependencies = [ scriptalign ];
             doCheck = false;
           };
+
+          arabic-armenian = python.pkgs.buildPythonApplication {
+            pname = "arabic-armenian";
+            version = "0.1.0";
+            pyproject = true;
+            src = arabicArmenianSrc;
+            build-system = with python.pkgs; [ setuptools ];
+            dependencies = [ scriptalign ];
+            doCheck = false;
+          };
         in {
-          inherit scriptalign coptic-arabic;
+          inherit scriptalign coptic-arabic arabic-armenian;
           default = coptic-arabic;
         };
     in
@@ -64,6 +83,10 @@
         coptic-arabic = {
           type = "app";
           program = "${self.packages.${system}.coptic-arabic}/bin/coptic-arabic";
+        };
+        arabic-armenian = {
+          type = "app";
+          program = "${self.packages.${system}.arabic-armenian}/bin/arabic-armenian";
         };
         default = self.apps.${system}.coptic-arabic;
       });
