@@ -3,7 +3,12 @@
 from .align import align_pair
 from .corpus import ParallelCorpus, build_corpus, load_parallel_corpus
 from .em import AlignmentResult, iterate_alignment
-from .formatting import format_phi_table, format_word_alignment
+from .formatting import (
+    format_correspondence_summary,
+    format_phi_table,
+    format_word_alignment,
+    rank_correspondences,
+)
 from .io_ import (
     load_legacy_state,
     load_state,
@@ -29,9 +34,11 @@ __all__ = [
     "build_corpus",
     "count_cooccurrences_aligned",
     "count_cooccurrences_full",
+    "format_correspondence_summary",
     "format_phi_table",
     "format_word_alignment",
     "iterate_alignment",
+    "rank_correspondences",
     "load_legacy_state",
     "load_parallel_corpus",
     "load_state",

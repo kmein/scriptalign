@@ -45,15 +45,40 @@ python -m venv --system-site-packages .venv
 coptic-arabic --input parallel_texts.csv --output-dir output/ --iterations 10
 ```
 
-Outputs:
+prints a summary to stdout:
 
-- `output/correspondences.csv` — **φ matrix with letter labels** (column headers = Arabic alphabet, row labels = Coptic alphabet). Open in a spreadsheet to inspect any pair.
-- `output/correspondences_ranked.tsv` — one letter pair per line, sorted strongest-correlated first. Three tab-separated columns: `a`, `b`, `phi`.
-- `output/phi (after alignment #<i>).csv` — final φ matrix, unlabeled (raw numbers).
-- `output/Co-occurrences (after alignment #<i>).csv` — aligned co-occurrence counts.
-- `output/aligned_texts.pkl` — pickled `{words_a, words_b, alignments}`.
+```
+coptic-arabic: 187 words × 10 iterations → output/
 
-Pass `--clipboard` to also copy a formatted φ table to the system clipboard (requires `pip install -e .[clipboard]`).
+Top 10 correspondences:
+  ϧ ↔ خ   φ = +1.000
+  ϥ ↔ ف   φ = +0.983
+  ⲣ ↔ ر   φ = +0.954
+  ⲙ ↔ م   φ = +0.881
+  ...
+```
+
+and writes to `output/`:
+
+- `correspondences.csv` — **φ matrix with letter labels** (column headers = Arabic alphabet, row labels = Coptic alphabet). Open in a spreadsheet to inspect any pair.
+- `correspondences_ranked.tsv` — one letter pair per line, sorted strongest-correlated first. Three tab-separated columns: `a`, `b`, `phi`.
+- `phi.csv` — raw φ matrix, unlabeled (for code consumers).
+- `occurrences.csv` — raw aligned co-occurrence counts.
+- `state.pkl` — pickled `{words_a, words_b, alignments}`.
+
+### Quick look without writing files
+
+```
+coptic-arabic --input parallel_texts.csv --show 20    # top-20 to stdout, no writes
+coptic-arabic --input parallel_texts.csv --show 0     # every pair
+```
+
+### Other flags
+
+- `--top N` — how many rows the post-run summary table includes (default 10).
+- `--iterations N` — refinement iterations (default 10).
+- `--gap-scale F` — DP gap penalty scale (default 0.5).
+- `--clipboard` — copy a formatted φ table to the system clipboard (requires `pip install -e .[clipboard]`).
 
 ## Use the library on a different pair of scripts
 

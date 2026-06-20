@@ -39,18 +39,11 @@ def save_correspondences_tsv(
 ) -> None:
     """Write every letter pair on its own line, sorted strongest-correlated
     first. Three tab-separated columns: ``a``, ``b``, ``phi``."""
-    pairs = sorted(
-        (
-            (float(matrix[i, j]), row_labels[i], col_labels[j])
-            for i in range(matrix.shape[0])
-            for j in range(matrix.shape[1])
-        ),
-        key=lambda t: t[0],
-        reverse=True,
-    )
+    from .formatting import rank_correspondences
+
     with open(path, "w") as f:
         f.write("a\tb\tphi\n")
-        for value, a, b in pairs:
+        for value, a, b in rank_correspondences(matrix, row_labels, col_labels):
             f.write(f"{a}\t{b}\t{value:+.6f}\n")
 
 

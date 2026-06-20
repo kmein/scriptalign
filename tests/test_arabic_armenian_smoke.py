@@ -14,7 +14,9 @@ def test_bundled_data_is_loadable():
 
 def test_pipeline_completes(tmp_path):
     result = run(output_dir=tmp_path, iterations=3)
-    assert (tmp_path / "aligned_texts.pkl").exists()
+    assert (tmp_path / "state.pkl").exists()
+    assert (tmp_path / "phi.csv").exists()
+    assert (tmp_path / "occurrences.csv").exists()
     assert (tmp_path / "correspondences.csv").exists()
     assert (tmp_path / "correspondences_ranked.tsv").exists()
     assert np.isfinite(result.phi).all()

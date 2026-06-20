@@ -37,9 +37,9 @@ def test_outputs_are_written(tmp_path):
         output_dir=tmp_path,
         iterations=2,  # quick smoke
     )
-    assert (tmp_path / "aligned_texts.pkl").exists()
-    assert (tmp_path / "phi (after alignment #1).csv").exists()
-    assert (tmp_path / "Co-occurrences (after alignment #1).csv").exists()
+    assert (tmp_path / "state.pkl").exists()
+    assert (tmp_path / "phi.csv").exists()
+    assert (tmp_path / "occurrences.csv").exists()
     assert (tmp_path / "correspondences.csv").exists()
     assert (tmp_path / "correspondences_ranked.tsv").exists()
 
@@ -54,3 +54,13 @@ def test_correspondences_ranked_is_sorted(tmp_path):
     assert lines[0] == "a\tb\tphi"
     values = [float(line.rsplit("\t", 1)[1]) for line in lines[1:]]
     assert values == sorted(values, reverse=True)
+
+
+def test_write_false_skips_disk_writes(tmp_path):
+    run(
+        input_path=REPO_ROOT / "parallel_texts.csv",
+        output_dir=tmp_path,
+        iterations=2,
+        write=False,
+    )
+    assert not any(tmp_path.iterdir())
